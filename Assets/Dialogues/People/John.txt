@@ -1,0 +1,13 @@
+j0 Elo
+x0-1 Pokaz mi swoje towary.
+x0-2 Siema, co tam?
+x0-3 Elo.
+j1 I sell weird red balls.
+x1-1 bol out.
+x1-2 Whatever.
+x1-3 Elo.
+j2 uhhh yeah it do b like that.
+x2-1 aint nothing like a thing buddy
+x2-2 yeah i'm out.
+x2-3 Elo.
+j3 Bye

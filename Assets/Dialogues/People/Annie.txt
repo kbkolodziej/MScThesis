@@ -1,0 +1,13 @@
+j0 Eluwina
+x0-1 Pokaz mi swoje towary.
+x0-2 Siema, co tam?
+x0-3 Elo.
+j1 I sell weapons. Find anything ya like?
+x1-1 This knife looks interesting.
+x1-2 Do you take custom orders?
+x1-3 Goodbye.
+j2 Bob killed me.
+x2-1 Uhh okay?
+x2-2 yeah i'm out.
+x2-3 Elo.
+j3 Byee~
