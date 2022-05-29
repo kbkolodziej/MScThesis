@@ -103,7 +103,7 @@ public class ProtagonistBehavior : MonoBehaviour
 
         }
         // not so peaceful
-        else if (Input.GetKeyDown(KeyCode.Q) && interactionWith && hasWeapon)
+        else if ((Input.GetKeyDown(KeyCode.Q) && interactionWith && hasWeapon) || (Input.GetKeyDown(KeyCode.JoystickButton2) && interactionWith && hasWeapon))
         {
             if(interactionWith.tag == "Person")
             {
