@@ -42,6 +42,5 @@ public class MouseClickHandler : MonoBehaviour
                     Debug.Log("Welcome to Biraffe3. Village is down that way. Right to lake. Hf");
             }
         }
-
     }
 }

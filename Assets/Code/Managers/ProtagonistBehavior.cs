@@ -51,7 +51,7 @@ public class ProtagonistBehavior : MonoBehaviour
 
     void Menu()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if((Input.GetKeyDown(KeyCode.Tab))|| (Input.GetKeyDown(KeyCode.JoystickButton1) && interactionWith))
         {
             
             GameObject panel = Inventory.instance.inventoryPanel;
@@ -68,7 +68,7 @@ public class ProtagonistBehavior : MonoBehaviour
     private void Interaction()
     {
         // peaceful interaction
-        if (Input.GetKeyDown(KeyCode.E) && interactionWith)
+        if ((Input.GetKeyDown(KeyCode.E) && interactionWith) || (Input.GetKeyDown(KeyCode.JoystickButton0) && interactionWith))
         {
             switch (interactionWith.tag)
             {
@@ -103,7 +103,7 @@ public class ProtagonistBehavior : MonoBehaviour
 
         }
         // not so peaceful
-        else if (Input.GetKeyDown(KeyCode.Q) && interactionWith && hasWeapon)
+        else if ((Input.GetKeyDown(KeyCode.Q) && interactionWith && hasWeapon) || (Input.GetKeyDown(KeyCode.JoystickButton2) && interactionWith && hasWeapon))
         {
             if(interactionWith.tag == "Person")
             {
