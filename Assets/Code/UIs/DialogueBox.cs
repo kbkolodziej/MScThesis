@@ -29,7 +29,7 @@ public class DialogueBox : MonoBehaviour
         {
             ReadDialogue(interactWith.name);
         }
-        if (Input.GetMouseButtonDown(0))
+        if ((Input.GetMouseButtonDown(0)) || (Input.GetKeyDown(KeyCode.JoystickButton3)))
         {
             if (textComponent.text == lines[index])
                 NextLine();
