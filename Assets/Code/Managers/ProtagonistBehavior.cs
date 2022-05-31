@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System.Text;
 
 public class ProtagonistBehavior : MonoBehaviour
 {
+    public Camera camera;
     private string[] interactableItems = { "Nonpickable", "Board", "Pickable", "Door", "House", "Person" };
     private Rigidbody2D protagonist;
     public GameObject interactionWith = null;
     private int health = 10;
     private int speed = 10;
-
+    private float logTimer = 0.0f;
+    private float logTime = 0.1f;
+    private FileStream oFileStream = null;
     private bool shownAchievement = false;
 
     private int points = 0;
@@ -188,5 +193,27 @@ public class ProtagonistBehavior : MonoBehaviour
 
     }
 
+    public void LogUpdate()
+    {
+        if (logTimer > logTime)
+        {
+            InfoLoggerRocking rockingInfo = new InfoLoggerRocking();
+            // Protagonist info
+            rockingInfo.x = transform.position.x;
+            rockingInfo.y = transform.position.y;
+            rockingInfo.health = health;
+            // General info
+            rockingInfo.timestamp = new System.DateTimeOffset(System.DateTime.Now).ToUnixTimeMilliseconds();
+            rockingInfo.xMin = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - 2 * (camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - Mathf.Abs(new Vector3(camera.transform.position.x, 0, 0).x));
+            rockingInfo.yMin = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - 2 * (camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - Mathf.Abs(new Vector3(0, camera.transform.position.y, 0).y));
+            rockingInfo.xMax = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
+            rockingInfo.yMax = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y;
 
+
+            string json = JsonUtility.ToJson(rockingInfo);
+            byte[] bytes = Encoding.ASCII.GetBytes(json);
+            oFileStream.Write(bytes, 0, bytes.Length);
+            logTimer = 0.0f;
+        }
+    }
 }
