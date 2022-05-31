@@ -58,7 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Code\Items\Consumable.cs" />
     <Compile Include="Assets\Code\Scenes\House.cs" />
-    <Compile Include="Assets\Code\UIs\InfoLoggerRocking.cs" />
+    <Compile Include="Assets\Code\Managers\InfoLoggerRocking.cs" />
     <Compile Include="Assets\Code\Scenes\Door.cs" />
     <Compile Include="Assets\Code\Managers\CameraBehavior.cs" />
     <Compile Include="Assets\Code\ProtagonistInfo.cs" />
