@@ -40,12 +40,10 @@ public class ProtagonistBehavior : MonoBehaviour
     {
         Physics2D.gravity = Vector2.zero;
         protagonist = gameObject.GetComponent<Rigidbody2D>();
-        //string logPath = Application.persistentDataPath;
-        //oFileStream = new FileStream(logPath + "/protagonistLogs.txt", FileMode.Create);
-        String destinationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "protagonistLogs");
-        Debug.Log(destinationPath);
-        if (File.Exists(destinationPath)) oFileStream = File.OpenWrite(destinationPath);
-        else oFileStream = File.Create(destinationPath);
+        string logPath = Application.dataPath + "Logs";
+        Debug.Log(logPath);
+        if (File.Exists(logPath)) oFileStream = File.OpenWrite(logPath);
+        else oFileStream = File.Create(logPath);
     }
 
     // Update is called once per frame
@@ -228,7 +226,7 @@ public void LogUpdate()
             protagonistInfo.openedChests = openedChests;
 
     // General info
-    protagonistInfo.timestamp = new System.DateTimeOffset(System.DateTime.Now).ToUnixTimeMilliseconds();
+            protagonistInfo.timestamp = new System.DateTimeOffset(System.DateTime.Now).ToUnixTimeMilliseconds();
             protagonistInfo.xMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - Mathf.Abs(new Vector3(GetComponent<Camera>().transform.position.x, 0, 0).x));
             protagonistInfo.yMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - Mathf.Abs(new Vector3(0, GetComponent<Camera>().transform.position.y, 0).y));
             protagonistInfo.xMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
