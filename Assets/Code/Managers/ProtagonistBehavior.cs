@@ -17,11 +17,6 @@ public class ProtagonistBehavior : MonoBehaviour
     private float logTimer = 0.0f;
     private float logTime = 0.1f;
     private FileStream oFileStream = null;
-    private bool shownAchievement = false;
-
-    private float logTimer = 0.0f;
-    private float logTime = 0.1f;
-    private FileStream oFileStream = null;
 
     private List<string> npcs = new List<string>();
     private bool shownAchievement = false;
