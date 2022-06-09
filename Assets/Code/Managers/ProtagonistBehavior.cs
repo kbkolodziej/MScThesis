@@ -35,6 +35,7 @@ public class ProtagonistBehavior : MonoBehaviour
     private string equipped = "Bron zalozona i gotowa do uzycia!";
     private string unequipped = "Bron sciagnieta.";
 
+    public Button ExitButton;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +43,9 @@ public class ProtagonistBehavior : MonoBehaviour
         protagonist = gameObject.GetComponent<Rigidbody2D>();
         string logPath = Application.persistentDataPath;
         oFileStream = new FileStream(logPath + "/protagonistLogs.txt", FileMode.Create);
+        if(File.Exists(destination)) oFileStream = File.OpenWrite(destination);
+        else oFileStream = File.Create(destination);
+        ExitButton.onClick.AddListener(TaskOnClick);
     }
 
     // Update is called once per frame
@@ -236,5 +240,9 @@ public void LogUpdate()
             oFileStream.Write(bytes, 0, bytes.Length);
             logTimer = 0.0f;
         }
+    }
+    void TaskOnClick()
+    {
+        Application.Quit();
     }
 }
