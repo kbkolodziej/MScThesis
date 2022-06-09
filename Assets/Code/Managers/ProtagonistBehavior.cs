@@ -37,11 +37,6 @@ public class ProtagonistBehavior : MonoBehaviour
     private int killCount = 0;
     private List<string> achievements = new List<string>();
 
-    private int points = 0;
-    private bool hasWeapon = false;
-    private int killCount = 0;
-    private List<string> achievements = new List<string>();
-
     private string equipped = "Bron zalozona i gotowa do uzycia!";
     private string unequipped = "Bron sciagnieta.";
 
