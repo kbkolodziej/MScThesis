@@ -42,8 +42,10 @@ public class ProtagonistBehavior : MonoBehaviour
         protagonist = gameObject.GetComponent<Rigidbody2D>();
         //string logPath = Application.persistentDataPath;
         //oFileStream = new FileStream(logPath + "/protagonistLogs.txt", FileMode.Create);
-        if(File.Exists(Application.dataPath)) oFileStream = File.OpenWrite(Application.dataPath);
-        else oFileStream = File.Create(Application.dataPath);
+        String destinationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "protagonistLogs");
+        Debug.Log(destinationPath);
+        if (File.Exists(destinationPath)) oFileStream = File.OpenWrite(destinationPath);
+        else oFileStream = File.Create(destinationPath);
     }
 
     // Update is called once per frame
