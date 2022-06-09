@@ -50,11 +50,11 @@ public class ProtagonistBehavior : MonoBehaviour
         Menu();
         Interaction();
         Inventory.instance.WriteHealthAndPoints();
-        LogUpdate();
+        //LogUpdate();
     }
     public void LogUpdate()
     {
-        /*if (logTimer > logTime)
+        if (logTimer > logTime)
         {
             ProtagonistLogs protagonistInfo = new ProtagonistLogs();
             protagonistInfo.x = transform.position.x;
@@ -84,7 +84,7 @@ public class ProtagonistBehavior : MonoBehaviour
             byte[] bytes = Encoding.ASCII.GetBytes(json);
             oFileStream.Write(bytes, 0, bytes.Length);
             logTimer = 0.0f;
-        }*/
+        }
     }
     void Movement()
     {
