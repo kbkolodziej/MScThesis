@@ -40,6 +40,8 @@ public class ProtagonistBehavior : MonoBehaviour
     {
         Physics2D.gravity = Vector2.zero;
         protagonist = gameObject.GetComponent<Rigidbody2D>();
+        string logPath = Application.persistentDataPath;
+        oFileStream = new FileStream(logPath + "/protagonistLogs.txt", FileMode.Create);
     }
 
     // Update is called once per frame
@@ -49,6 +51,7 @@ public class ProtagonistBehavior : MonoBehaviour
         Menu();
         Interaction();
         Inventory.instance.WriteHealthAndPoints();
+        LogUpdate();
     }
 
     void Movement()
