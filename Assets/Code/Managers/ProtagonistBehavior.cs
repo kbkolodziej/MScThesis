@@ -19,6 +19,24 @@ public class ProtagonistBehavior : MonoBehaviour
     private FileStream oFileStream = null;
     private bool shownAchievement = false;
 
+    private float logTimer = 0.0f;
+    private float logTime = 0.1f;
+    private FileStream oFileStream = null;
+
+    private List<string> npcs = new List<string>();
+    private bool shownAchievement = false;
+    private int interactionClicks = -1;
+    private int uniqueInteractions = 0;
+    private List<string> npcStoriesStatus = new List<string>();
+    private string currentWeapon;
+    private List<string> items;
+    private int openedChests;
+
+    private int points = 0;
+    private bool hasWeapon = false;
+    private int killCount = 0;
+    private List<string> achievements = new List<string>();
+
     private int points = 0;
     private bool hasWeapon = false;
     private int killCount = 0;
