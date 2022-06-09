@@ -200,25 +200,35 @@ public class ProtagonistBehavior : MonoBehaviour
         }
 
     }
-
-    public void LogUpdate()
+public void LogUpdate()
     {
         if (logTimer > logTime)
         {
-            InfoLoggerRocking rockingInfo = new InfoLoggerRocking();
-            // Protagonist info
-            rockingInfo.x = transform.position.x;
-            rockingInfo.y = transform.position.y;
-            rockingInfo.health = health;
-            // General info
-            rockingInfo.timestamp = new System.DateTimeOffset(System.DateTime.Now).ToUnixTimeMilliseconds();
-            rockingInfo.xMin = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - 2 * (camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - Mathf.Abs(new Vector3(camera.transform.position.x, 0, 0).x));
-            rockingInfo.yMin = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - 2 * (camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - Mathf.Abs(new Vector3(0, camera.transform.position.y, 0).y));
-            rockingInfo.xMax = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
-            rockingInfo.yMax = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y;
+            ProtagonistLogs protagonistInfo = new ProtagonistLogs();
+            protagonistInfo.x = transform.position.x;
+            protagonistInfo.y = transform.position.y;
+            protagonistInfo.achievements = achievements;
+            protagonistInfo.interactionClicks = interactionClicks;
+            protagonistInfo.uniqueInteractions = uniqueInteractions;
+            protagonistInfo.npcStoriesStatus = npcStoriesStatus;
+            protagonistInfo.npcs = npcs;
+            protagonistInfo.killed = killCount;
+            protagonistInfo.currentNPC = interactionWith.name;
+            protagonistInfo.currentWeapon = currentWeapon;
+            protagonistInfo.items = items;
+            protagonistInfo.hp = health;
+            protagonistInfo.exp = points;
+            protagonistInfo.openedChests = openedChests;
+
+    // General info
+    protagonistInfo.timestamp = new System.DateTimeOffset(System.DateTime.Now).ToUnixTimeMilliseconds();
+            protagonistInfo.xMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - Mathf.Abs(new Vector3(GetComponent<Camera>().transform.position.x, 0, 0).x));
+            protagonistInfo.yMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - Mathf.Abs(new Vector3(0, GetComponent<Camera>().transform.position.y, 0).y));
+            protagonistInfo.xMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
+            protagonistInfo.yMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y;
 
 
-            string json = JsonUtility.ToJson(rockingInfo);
+            string json = JsonUtility.ToJson(protagonistInfo);
             byte[] bytes = Encoding.ASCII.GetBytes(json);
             oFileStream.Write(bytes, 0, bytes.Length);
             logTimer = 0.0f;
