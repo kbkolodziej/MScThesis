@@ -49,10 +49,11 @@ public class ProtagonistBehavior : MonoBehaviour
     void Update()
     {
         Movement();
+        LogUpdate();
         Menu();
         Interaction();
         Inventory.instance.WriteHealthAndPoints();
-        LogUpdate();
+        logTimer += Time.deltaTime;
     }
 
     void Movement()
@@ -206,6 +207,7 @@ public class ProtagonistBehavior : MonoBehaviour
     }
 public void LogUpdate()
     {
+        Debug.Log("tesst0");
         if (logTimer > logTime)
         {
             ProtagonistLogs protagonistInfo = new ProtagonistLogs();
@@ -231,8 +233,10 @@ public void LogUpdate()
             protagonistInfo.xMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
             protagonistInfo.yMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y;
 
-
+            Debug.Log("tet1");
             string json = JsonUtility.ToJson(protagonistInfo);
+            Debug.Log("test2");
+            Debug.Log(json);
             byte[] bytes = Encoding.ASCII.GetBytes(json);
             oFileStream.Write(bytes, 0, bytes.Length);
             logTimer = 0.0f;
