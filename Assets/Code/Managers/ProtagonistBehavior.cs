@@ -8,7 +8,8 @@ using System.Text;
 
 public class ProtagonistBehavior : MonoBehaviour
 {
-    public Camera camera;
+    public string prevNPC = null;
+    public new Camera camera;
     private string[] interactableItems = { "Nonpickable", "Board", "Pickable", "Door", "House", "Person" };
     private Rigidbody2D protagonist;
     public GameObject interactionWith = null;
@@ -19,8 +20,9 @@ public class ProtagonistBehavior : MonoBehaviour
     private FileStream oFileStream = null;
 
     private List<string> npcs = new List<string>();
+    private int npcCounter = 0;
     private bool shownAchievement = false;
-    private int interactionClicks = -1;
+    private int interactionClicks = 0;
     private int uniqueInteractions = 0;
     private List<string> npcStoriesStatus = new List<string>();
     private string currentWeapon;
@@ -41,7 +43,6 @@ public class ProtagonistBehavior : MonoBehaviour
         Physics2D.gravity = Vector2.zero;
         protagonist = gameObject.GetComponent<Rigidbody2D>();
         string logPath = Application.dataPath;
-        Debug.Log(logPath);
         oFileStream = new FileStream(logPath + "/CollectedLogs.txt", FileMode.Create);
     }
 
@@ -91,18 +92,18 @@ public class ProtagonistBehavior : MonoBehaviour
             switch (interactionWith.tag)
             {
                 case "Pickable":
-                    GetComponent<InteractionMethods>().PickableInteraction(interactionWith);
+                    PickableInteraction(interactionWith);
                     break;
                 case "Board":
-                    GetComponent<InteractionMethods>().BoardInteraction(interactionWith);
+                    BoardInteraction(interactionWith);
                     break;
                 case "Nonpickable":
-                    GetComponent<InteractionMethods>().NonpickableInteraction(interactionWith);
+                    NonpickableInteraction(interactionWith);
                     break;
                 case "Person":
-                    GameObject dialoguePanel = Inventory.instance.dialoguePanel;
-                    if (!dialoguePanel.activeSelf)
-                        dialoguePanel.SetActive(true);
+                        GameObject dialoguePanel = Inventory.instance.dialoguePanel;
+                        if (!dialoguePanel.activeSelf)
+                            dialoguePanel.SetActive(true);
                     break;
                 case "Door":
                     string openTo = interactionWith.GetComponent<Door>().openTo;
@@ -156,7 +157,6 @@ public class ProtagonistBehavior : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-       // Debug.Log(other.tag);
         if (Array.IndexOf(interactableItems, other.tag) != -1)
             interactionWith = other.gameObject;
     }
@@ -207,7 +207,6 @@ public class ProtagonistBehavior : MonoBehaviour
     }
 public void LogUpdate()
     {
-        Debug.Log("tesst0");
         if (logTimer > logTime)
         {
             ProtagonistLogs protagonistInfo = new ProtagonistLogs();
@@ -217,29 +216,92 @@ public void LogUpdate()
             protagonistInfo.interactionClicks = interactionClicks;
             protagonistInfo.uniqueInteractions = uniqueInteractions;
             protagonistInfo.npcStoriesStatus = npcStoriesStatus;
-            protagonistInfo.npcs = npcs;
+            if (((interactionWith != null) && (interactionWith.tag == "Person")) && (prevNPC != interactionWith.name)) {
+                npcs.Add(interactionWith.name);
+                prevNPC = interactionWith.name;
+            }
             protagonistInfo.killed = killCount;
-            protagonistInfo.currentNPC = interactionWith.name;
+            if ((interactionWith != null) && (interactionWith.tag == "Person")) npcCounter++;
             protagonistInfo.currentWeapon = currentWeapon;
             protagonistInfo.items = items;
             protagonistInfo.hp = health;
             protagonistInfo.exp = points;
             protagonistInfo.openedChests = openedChests;
+            protagonistInfo.npcs = npcs;
 
     // General info
             protagonistInfo.timestamp = new System.DateTimeOffset(System.DateTime.Now).ToUnixTimeMilliseconds();
-            protagonistInfo.xMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - Mathf.Abs(new Vector3(GetComponent<Camera>().transform.position.x, 0, 0).x));
-            protagonistInfo.yMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - Mathf.Abs(new Vector3(0, GetComponent<Camera>().transform.position.y, 0).y));
-            protagonistInfo.xMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
-            protagonistInfo.yMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y;
+//            protagonistInfo.xMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - Mathf.Abs(new Vector3(GetComponent<Camera>().transform.position.x, 0, 0).x));
+//            protagonistInfo.yMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - Mathf.Abs(new Vector3(0, GetComponent<Camera>().transform.position.y, 0).y));
+//            protagonistInfo.xMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
+//            protagonistInfo.yMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y;
 
-            Debug.Log("tet1");
             string json = JsonUtility.ToJson(protagonistInfo);
-            Debug.Log("test2");
-            Debug.Log(json);
             byte[] bytes = Encoding.ASCII.GetBytes(json);
             oFileStream.Write(bytes, 0, bytes.Length);
             logTimer = 0.0f;
         }
+    }
+    public void PickableInteraction(GameObject interactionWith)
+    {
+        EQItem pickable;
+        if (interactionWith.GetComponent<ItemBehavior>().type == null)
+        {
+            pickable = ScriptableObject.CreateInstance<EQItem>();
+            pickable.itemName = interactionWith.name;
+            SpriteRenderer iconLoader = interactionWith.GetComponent<SpriteRenderer>();
+            pickable.icon = iconLoader.sprite;
+        }
+        else
+        {
+            pickable = interactionWith.GetComponent<ItemBehavior>().type;
+        }
+        Inventory.instance.AddItem(pickable);
+
+        Debug.Log("Picked " + interactionWith.name + "!");
+        interactionWith.gameObject.SetActive(false);
+    }
+
+    public void DoorInteraction(GameObject interactionWith, Vector2 positionMain, Vector2 position)
+    {
+        string openTo = interactionWith.GetComponent<Door>().openTo;
+        if (openTo == "Main")
+        {
+            position = positionMain;
+            // Debug.Log("main " + positionMain);
+            // Debug.Log("actual position " + position);
+        }
+        SceneManager.LoadScene(openTo);
+    }
+
+    public void HouseInteraction(GameObject interactionWith, Vector2 positionMain, Vector2 position)
+    {
+        string getTo = interactionWith.GetComponent<House>().houseOf;
+        if (!String.IsNullOrEmpty(getTo))
+        {
+            positionMain = position;
+            //  Debug.Log("main " + positionMain);
+            //  Debug.Log("actual position " + position);
+            SceneManager.LoadScene(interactionWith.GetComponent<House>().houseOf);
+        }
+        else
+            Debug.Log("I cant get there");
+    }
+
+    public void BoardInteraction(GameObject interactionWith)
+    {
+        GameObject infoPanel = Inventory.instance.infoPanel;
+        if (!infoPanel.activeSelf)
+            infoPanel.SetActive(true);
+        infoPanel.GetComponent<InfoPanel>().infoLines = interactionWith.GetComponent<BoardInfo>().info;
+    }
+
+    public void NonpickableInteraction(GameObject interactionWith)
+    {
+        Debug.Log("Jestem w nonpickable!");
+        GameObject infoPanel = Inventory.instance.infoPanel;
+        if (!infoPanel.activeSelf)
+            infoPanel.SetActive(true);
+        infoPanel.GetComponent<InfoPanel>().infoLines = interactionWith.GetComponent<Nonpickable>().GetMyInfo();
     }
 }
