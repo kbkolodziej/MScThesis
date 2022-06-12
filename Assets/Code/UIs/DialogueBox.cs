@@ -10,6 +10,7 @@ public class DialogueBox : MonoBehaviour
     public string[] lines = new string[] { };
     public float textSpeed;
     public GameObject player;
+    public GameObject continueButton;
     private string dialogue;
     private StringReader reader;
     private int index;
@@ -19,6 +20,7 @@ public class DialogueBox : MonoBehaviour
         textComponent.text = string.Empty;
         // StartDialogue();
         gameObject.SetActive(false);
+        continueButton.SetActive(false);
     }
 
     // Update is called once per frame
@@ -27,9 +29,10 @@ public class DialogueBox : MonoBehaviour
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
         if (interactWith != null && interactWith.tag == "Person")
         {
+            continueButton.SetActive(true);
             ReadDialogue(interactWith.name);
         }
-        if ((Input.GetMouseButtonDown(0)) || (Input.GetKeyDown(KeyCode.JoystickButton3)))
+        if (Input.GetKeyDown(KeyCode.JoystickButton3))
         {
             if (textComponent.text == lines[index])
                 NextLine();
@@ -80,6 +83,11 @@ public class DialogueBox : MonoBehaviour
         }
         lines = newDialogue.ToArray();
     }
+    
+    public void OnClick()
+    {
+        NextLine();
+    }
 
     public void StartDialogue()
     {
@@ -108,6 +116,7 @@ public class DialogueBox : MonoBehaviour
         {
             index = 0;
             gameObject.SetActive(false);
+            continueButton.SetActive(false);
         }
     }
 
