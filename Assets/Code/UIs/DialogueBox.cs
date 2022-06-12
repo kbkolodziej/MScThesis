@@ -13,12 +13,14 @@ public class DialogueBox : MonoBehaviour
     private string dialogue;
     private StringReader reader;
     private int index;
+    public GameObject continueButton;
     // Start is called before the first frame update
     void Start()
     {
         textComponent.text = string.Empty;
         // StartDialogue();
         gameObject.SetActive(false);
+        continueButton.SetActive(false);
     }
 
     // Update is called once per frame
@@ -29,7 +31,7 @@ public class DialogueBox : MonoBehaviour
         {
             ReadDialogue(interactWith.name);
         }
-        if ((Input.GetMouseButtonDown(0)) || (Input.GetKeyDown(KeyCode.JoystickButton3)))
+        if (Input.GetKeyDown(KeyCode.JoystickButton3))
         {
             if (textComponent.text == lines[index])
                 NextLine();
@@ -44,6 +46,7 @@ public class DialogueBox : MonoBehaviour
 
     void ReadDialogue(string name)
     {
+        continueButton.SetActive(true);
         dialogue = ReadingDialogues.ReadDialogue(name);
         Debug.Log(dialogue);
         reader = new StringReader(dialogue);
@@ -108,7 +111,11 @@ public class DialogueBox : MonoBehaviour
         {
             index = 0;
             gameObject.SetActive(false);
+            continueButton.SetActive(false);
         }
     }
-
+    public void OnClick()
+    {
+        NextLine();
+    }
 }
