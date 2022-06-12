@@ -14,6 +14,7 @@ public class DialogueBox : MonoBehaviour
     private StringReader reader;
     private int index;
     public GameObject continueButton;
+    private bool answer = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,10 +49,8 @@ public class DialogueBox : MonoBehaviour
     {
         continueButton.SetActive(true);
         dialogue = ReadingDialogues.ReadDialogue(name);
-        Debug.Log(dialogue);
         reader = new StringReader(dialogue);
         string line = "";
-        string lineWithAnswers = "";
         List<string> newDialogue = new List<string>();
         bool found = false;
      
@@ -63,23 +62,7 @@ public class DialogueBox : MonoBehaviour
                 found = true;
                 break;
             }
-            if (line[0] == 'j')
-            {
-                lineWithAnswers = line.Substring(3) + System.Environment.NewLine;
-                line = reader.ReadLine();
-                bool isDialogueOption = true;
-                int number = 1;
-                while(isDialogueOption) 
-                {
-                    lineWithAnswers = lineWithAnswers.Insert(lineWithAnswers.Length, 
-                        number +  ". " + line.Substring(5) + System.Environment.NewLine);
-                    line = reader.ReadLine();
-                    if(line[0] != 'x')
-                        isDialogueOption = false;
-                    number++;
-                }
-                newDialogue.Add(lineWithAnswers);
-            }
+            newDialogue.Add(line);
         }
         lines = newDialogue.ToArray();
     }
@@ -97,14 +80,15 @@ public class DialogueBox : MonoBehaviour
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed); // change to wait for input
         }
+
     }
 
     void NextLine()
     {
         if (index < lines.Length - 1)
         {
+            if(index <= 1) textComponent.text = string.Empty;
             index++;
-            textComponent.text = string.Empty;
             StartCoroutine(TypeLine());
         }
         else
@@ -112,6 +96,7 @@ public class DialogueBox : MonoBehaviour
             index = 0;
             gameObject.SetActive(false);
             continueButton.SetActive(false);
+
         }
     }
     public void OnClick()

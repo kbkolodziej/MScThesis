@@ -59,16 +59,12 @@
     <Compile Include="Assets\Code\Items\Consumable.cs" />
     <Compile Include="Assets\Code\Scenes\House.cs" />
     <Compile Include="Assets\Code\Scenes\Door.cs" />
-    <Compile Include="Assets\Code\ProtagonistLogs.cs" />
     <Compile Include="Assets\Code\Managers\CameraBehavior.cs" />
     <Compile Include="Assets\Code\Managers\InfoLoggerRocking.cs" />
     <Compile Include="Assets\Code\ProtagonistInfo.cs" />
-    <Compile Include="Assets\Code\JsonHelper.cs" />
     <Compile Include="Assets\Code\Items\InventorySlotController.cs" />
-    <Compile Include="Assets\Code\InfoLoggerMap.cs" />
     <Compile Include="Assets\Code\Managers\AchievementManager.cs" />
     <Compile Include="Assets\Code\Items\Inventory.cs" />
-    <Compile Include="Assets\Code\ReadingIDFile.cs" />
     <Compile Include="Assets\Code\Items\ItemBehavior.cs" />
     <Compile Include="Assets\Code\Items\EQItem.cs" />
     <Compile Include="Assets\Code\Items\WeaponItem.cs" />
@@ -79,7 +75,6 @@
     <Compile Include="Assets\Code\UIs\InfoPanel.cs" />
     <Compile Include="Assets\Code\Managers\ProtagonistBehavior.cs" />
     <Compile Include="Assets\Code\UIs\TextHandler.cs" />
-    <Compile Include="Assets\Code\UIs\Exit.cs" />
     <Compile Include="Assets\Code\Managers\InteractionMethods.cs" />
     <Compile Include="Assets\Code\UIs\TextItem.cs" />
     <Compile Include="Assets\Code\Items\PlotItem.cs" />
