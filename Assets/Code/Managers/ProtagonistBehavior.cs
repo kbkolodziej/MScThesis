@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System.Text;
 
+
 public class ProtagonistBehavior : MonoBehaviour
 {
     public string prevNPC = null;
