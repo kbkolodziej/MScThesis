@@ -15,7 +15,8 @@ public class DialogueBox : MonoBehaviour
     private int index;
 //  public GameObject continueButton;
     private bool first;
-    private Dictionary<string, List<int>> npcInteraction = new Dictionary<string, List<int>>();
+    private Dictionary<string, List<int>> npcInteractions = new Dictionary<string, List<int>>();
+    private string prevPerson = "";
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +24,9 @@ public class DialogueBox : MonoBehaviour
         // StartDialogue();
         gameObject.SetActive(false);
 //        continueButton.SetActive(false);
-        npcInteractions.Add("Sprzedawca", 0);
+        List<int> myList = new List<int>() {0};
+        npcInteractions.Add("Sprzedawca", myList);
+        Debug.Log(npcInteractions["Sprzedawca"].Count);
     }
 
     // Update is called once per frame
@@ -32,9 +35,13 @@ public class DialogueBox : MonoBehaviour
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
         if (interactWith != null && interactWith.tag == "Person")
         {
-            List<int> currentStats = npcInteractions[interactWith.name];
-            currentStats[0] = currentStats[0] + 1;
-            npcInteractions[interactWith.name = currentStats[0]];
+            if(prevPerson != interactWith.name){
+                List<int> currentStats = npcInteractions[interactWith.name];
+                Debug.Log("Current stats" + currentStats.Count);
+                currentStats[0] = currentStats[0] + 1;
+                npcInteractions[interactWith.name] = currentStats;
+                prevPerson = interactWith.name;
+            }
             if(first) Answers(interactWith.name);
             else ReadDialogue(interactWith.name);
         }
@@ -123,26 +130,48 @@ public class DialogueBox : MonoBehaviour
     }
 
     public void Answers(string name){
+        GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
         if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.Keypad1))){
+            string names = null;
             List<int> currentStats = npcInteractions[interactWith.name];
-            currentStats[1] = 1;
-            npcInteractions[interactWith.name = currentStats[1]];
-            name = name+"1";
-            ReadDialogue(name);
+            currentStats.Add(1);
+            for(int i = 0; i < currentStats.Count; i++){
+                names = names + currentStats[i].ToString();
+            }
+            if(names = "111") {
+                ProtagonistBehaviour.health = ProtagonistBehaviour.health - 5;
+                return;
+            }
+            string nameCharacter = name + names;
+            npcInteractions[interactWith.name] = currentStats;
+            ReadDialogue(nameCharacter);
         }
         if(Input.GetKeyDown(KeyCode.JoystickButton1) || (Input.GetKeyDown(KeyCode.Keypad2))){
+            string names = null;
             List<int> currentStats = npcInteractions[interactWith.name];
-            currentStats[1] = 2;
-            npcInteractions[interactWith.name = currentStats[1]];
-            name = name+"2";
-            ReadDialogue(name);
+            currentStats.Add(2);
+            npcInteractions[interactWith.name] = currentStats;
+            for(int i = 0; i < currentStats.Count; i++){
+                names = names + currentStats[i].ToString();
+            }
+            string nameCharacter = name + names;
+            npcInteractions[interactWith.name] = currentStats;
+            Debug.Log("name" + name);
+            Debug.Log("names" + names);
+            ReadDialogue(nameCharacter);
         }
         if(Input.GetKeyDown(KeyCode.JoystickButton0) || (Input.GetKeyDown(KeyCode.Keypad3))){
+            string names = null;
             List<int> currentStats = npcInteractions[interactWith.name];
-            currentStats[1] = 3;
-            npcInteractions[interactWith.name = currentStats[1]];
-            name = name+"3";
-            ReadDialogue(name);
+            currentStats.Add(3);
+            npcInteractions[interactWith.name] = currentStats;
+            for(int i = 0; i < currentStats.Count; i++){
+                names = names + currentStats[i].ToString();
+            }
+            if(names.Length <= 2) return;
+            string nameCharacter = name + names;
+            npcInteractions[interactWith.name] = currentStats;
+            ReadDialogue(nameCharacter);
         }
     }
 }

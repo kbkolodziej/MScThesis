@@ -86,10 +86,11 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\Dialogues\People\John.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\Dialogues\People\Sprzedawca1.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\Dialogues\People\Alexandra.txt" />
+    <None Include="Assets\Dialogues\People\Sprzedawca12.txt" />
     <None Include="Assets\Dialogues\People\Sambor.txt" />
+    <None Include="Assets\Dialogues\People\Sprzedawca11.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Dialogues\Nonpickables\GlebokaStudnia.txt" />
     <None Include="Assets\Dialogues\People\Sprzedawca.txt" />
@@ -100,8 +101,10 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Dialogues\People\Albert.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\Dialogues\People\Sprzedawca111.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Dialogues\People\Alexander.txt" />
+    <None Include="Assets\Dialogues\People\Sprzedawca112.txt" />
     <None Include="Assets\Dialogues\People\Makima.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
@@ -109,6 +112,7 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\Dialogues\People\Sprzedawca121.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\Dialogues\People\Emily.txt" />
