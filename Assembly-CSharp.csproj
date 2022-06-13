@@ -105,6 +105,7 @@
     <None Include="Assets\Dialogues\People\Albert.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\Dialogues\People\Sprzedawca111.txt" />
+    <None Include="Assets\Dialogues\People\findingBrother.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Dialogues\People\Alexander.txt" />
     <None Include="Assets\Dialogues\People\Sprzedawca112.txt" />
