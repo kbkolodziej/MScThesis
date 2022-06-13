@@ -170,10 +170,7 @@ public class DialogueBox : MonoBehaviour
             for(int i = 0; i < currentStats.Count; i++){
                 names = names + currentStats[i].ToString();
             }
-            if(names.Length <= 2) return;
-            if(names.Length >= 4) {
-                return;
-            }
+            if((names.Length <= 2) || (names.Length >= 4)) return;
             string nameCharacter = name + names;
             npcInteractions[interactWith.name] = currentStats;
             ReadDialogue(nameCharacter);
