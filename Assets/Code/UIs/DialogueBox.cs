@@ -138,8 +138,7 @@ public class DialogueBox : MonoBehaviour
             for(int i = 0; i < currentStats.Count; i++){
                 names = names + currentStats[i].ToString();
             }
-            if(names = "111") {
-                ProtagonistBehaviour.health = ProtagonistBehaviour.health - 5;
+            if(names.Length >= 4) {
                 return;
             }
             string nameCharacter = name + names;
@@ -153,6 +152,9 @@ public class DialogueBox : MonoBehaviour
             npcInteractions[interactWith.name] = currentStats;
             for(int i = 0; i < currentStats.Count; i++){
                 names = names + currentStats[i].ToString();
+            }
+            if(names.Length >= 4) {
+                return;
             }
             string nameCharacter = name + names;
             npcInteractions[interactWith.name] = currentStats;
@@ -169,6 +171,9 @@ public class DialogueBox : MonoBehaviour
                 names = names + currentStats[i].ToString();
             }
             if(names.Length <= 2) return;
+            if(names.Length >= 4) {
+                return;
+            }
             string nameCharacter = name + names;
             npcInteractions[interactWith.name] = currentStats;
             ReadDialogue(nameCharacter);
