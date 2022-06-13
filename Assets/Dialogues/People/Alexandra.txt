@@ -1,3 +1,4 @@
-j0 Whats poppin
-x0-1 Elo.
+j0 To moja wina, to wszystko moja wina.
+x0-1 Co jest twoją winą?
+x0-2 W sumie to mnie to nie obchodzi.
 j1 Bye

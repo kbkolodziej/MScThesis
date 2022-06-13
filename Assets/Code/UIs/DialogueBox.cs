@@ -14,12 +14,16 @@ public class DialogueBox : MonoBehaviour
     private StringReader reader;
     private int index;
 //  public GameObject continueButton;
+    public GameObject sprzedawca;
+    public GameObject brat;
     private bool first;
+    private bool brotherFound;
     private Dictionary<string, List<int>> npcInteractions = new Dictionary<string, List<int>>();
     private string prevPerson = "";
     // Start is called before the first frame update
     void Start()
     {
+        brotherFound = false;
         textComponent.text = string.Empty;
         // StartDialogue();
         gameObject.SetActive(false);
@@ -32,15 +36,28 @@ public class DialogueBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if((interactWith.name == "Sprzedawca") && (brotherFound == true)){
+            string element = "findingBrother";
+            ReadDialogue(element);
+            sprzedawca.SetActive(false);
+            brat.SetActive(false);
+        }
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
+        if (!npcInteractions.ContainsKey(interactWith.name)) {
+            List<int> myList = new List<int>() {0};
+            npcInteractions.Add(interactWith.name, myList);
+        }
         if (interactWith != null && interactWith.tag == "Person")
         {
+            if(interactWith.name == "Casper") brotherFound = true;
             if(prevPerson != interactWith.name){
                 List<int> currentStats = npcInteractions[interactWith.name];
                 Debug.Log("Current stats" + currentStats.Count);
                 currentStats[0] = currentStats[0] + 1;
                 npcInteractions[interactWith.name] = currentStats;
                 prevPerson = interactWith.name;
+                textComponent.text = string.Empty;
+                ReadDialogue(interactWith.name);
             }
             if(first) Answers(interactWith.name);
             else ReadDialogue(interactWith.name);
@@ -132,6 +149,7 @@ public class DialogueBox : MonoBehaviour
     public void Answers(string name){
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
         if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.Keypad1))){
+            if((interactWith.name != "Sprzedawca") && (interactWith.name != "Bonifacy")) return;
             string names = null;
             List<int> currentStats = npcInteractions[interactWith.name];
             currentStats.Add(1);
@@ -141,6 +159,7 @@ public class DialogueBox : MonoBehaviour
             if(names.Length >= 4) {
                 return;
             }
+            if((names.Length >= 3) && (interactWith.name == "Bonifacy")) return;
             string nameCharacter = name + names;
             npcInteractions[interactWith.name] = currentStats;
             ReadDialogue(nameCharacter);
@@ -156,6 +175,7 @@ public class DialogueBox : MonoBehaviour
             if(names.Length >= 4) {
                 return;
             }
+            if((names == "122") && (interactWith.name == "Sprzedawca")) return;
             string nameCharacter = name + names;
             npcInteractions[interactWith.name] = currentStats;
             Debug.Log("name" + name);
@@ -169,6 +189,10 @@ public class DialogueBox : MonoBehaviour
             npcInteractions[interactWith.name] = currentStats;
             for(int i = 0; i < currentStats.Count; i++){
                 names = names + currentStats[i].ToString();
+            }
+            if(names == "13") {
+            List<int> emptyList = new List<int>() {0};
+            npcInteractions[interactWith.name] = emptyList;
             }
             if((names.Length <= 2) || (names.Length >= 4)) return;
             string nameCharacter = name + names;
