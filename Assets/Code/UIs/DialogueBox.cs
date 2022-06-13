@@ -15,6 +15,7 @@ public class DialogueBox : MonoBehaviour
     private int index;
 //  public GameObject continueButton;
     private bool first;
+    private Dictionary<String, List<Integer>> npcInteraction = new Dictionary<String, List<Integer>>();
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class DialogueBox : MonoBehaviour
         // StartDialogue();
         gameObject.SetActive(false);
 //        continueButton.SetActive(false);
+        npcInteractions.Add("Sprzedawca", 0);
     }
 
     // Update is called once per frame
@@ -30,6 +32,9 @@ public class DialogueBox : MonoBehaviour
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
         if (interactWith != null && interactWith.tag == "Person")
         {
+            List<Integer> currentStats = npcInteractions[interactWith.name];
+            currentStats[0] = currentStats[0] + 1;
+            npcInteractions[interactWith.name = currentStats[0]];
             if(first) Answers(interactWith.name);
             else ReadDialogue(interactWith.name);
         }
@@ -116,19 +121,28 @@ public class DialogueBox : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-//    public void OnClick(){
-//        NextLine();
-//    }
+
     public void Answers(string name){
         if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.Keypad1))){
-            Debug.Log("test2");
+            List<Integer> currentStats = npcInteractions[interactWith.name];
+            currentStats[1] = 1;
+            npcInteractions[interactWith.name = currentStats[1]];
             name = name+"1";
             ReadDialogue(name);
-            //NextLine();
         }
         if(Input.GetKeyDown(KeyCode.JoystickButton1) || (Input.GetKeyDown(KeyCode.Keypad2))){
+            List<Integer> currentStats = npcInteractions[interactWith.name];
+            currentStats[1] = 2;
+            npcInteractions[interactWith.name = currentStats[1]];
+            name = name+"2";
+            ReadDialogue(name);
         }
         if(Input.GetKeyDown(KeyCode.JoystickButton0) || (Input.GetKeyDown(KeyCode.Keypad3))){
+            List<Integer> currentStats = npcInteractions[interactWith.name];
+            currentStats[1] = 3;
+            npcInteractions[interactWith.name = currentStats[1]];
+            name = name+"3";
+            ReadDialogue(name);
         }
     }
 }
