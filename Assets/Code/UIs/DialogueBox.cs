@@ -36,13 +36,13 @@ public class DialogueBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
         if((interactWith.name == "Sprzedawca") && (brotherFound == true)){
             string element = "findingBrother";
             ReadDialogue(element);
             sprzedawca.SetActive(false);
             brat.SetActive(false);
         }
-        GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
         if (!npcInteractions.ContainsKey(interactWith.name)) {
             List<int> myList = new List<int>() {0};
             npcInteractions.Add(interactWith.name, myList);
