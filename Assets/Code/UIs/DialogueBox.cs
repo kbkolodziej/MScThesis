@@ -84,7 +84,8 @@ public class DialogueBox : MonoBehaviour
 
     void ReadDialogue(string name)
     {
-    if((interactWith!=null)&&(interactWith.name == "Sprzedawca")&&(sprzedawcaTalking==true)) return;
+        GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
+        if((interactWith!=null)&&(interactWith.name == "Sprzedawca")&&(sprzedawcaTalking==true)) return;
         first = true;
 //        continueButton.SetActive(true);
         dialogue = ReadingDialogues.ReadDialogue(name);
