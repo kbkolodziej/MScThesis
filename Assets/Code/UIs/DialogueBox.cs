@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class DialogueBox : MonoBehaviour
 {
+    public int health;
     public TextMeshProUGUI textComponent;
     public string[] lines = new string[] { };
     public float textSpeed;
@@ -18,13 +19,12 @@ public class DialogueBox : MonoBehaviour
     public GameObject brat;
     private bool first;
     private bool brotherFound;
-    private bool sprzedawcaTalking;
     private Dictionary<string, List<int>> npcInteractions = new Dictionary<string, List<int>>();
     private string prevPerson = "";
     // Start is called before the first frame update
     void Start()
     {
-        sprzedawcaTalking = false;
+        health = 10;
         brotherFound = false;
         textComponent.text = string.Empty;
         // StartDialogue();
@@ -47,7 +47,6 @@ public class DialogueBox : MonoBehaviour
             Debug.Log("FOUND");
             string element = "findingBrother";
             ReadDialogue(element);
-            sprzedawcaTalking = false;
             brat.SetActive(false);
         }
         if ((interactWith != null)&&(!npcInteractions.ContainsKey(interactWith.name))) {
@@ -85,7 +84,6 @@ public class DialogueBox : MonoBehaviour
     void ReadDialogue(string name)
     {
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
-        if((interactWith!=null)&&(interactWith.name == "Sprzedawca")&&(sprzedawcaTalking==true)) return;
         first = true;
 //        continueButton.SetActive(true);
         dialogue = ReadingDialogues.ReadDialogue(name);
@@ -164,6 +162,12 @@ public class DialogueBox : MonoBehaviour
             currentStats.Add(1);
             for(int i = 0; i < currentStats.Count; i++){
                 names = names + currentStats[i].ToString();
+            }
+            if((interactWith.name == "Sprzedawca") && (names == "111" || names == "1111"))
+            {
+                names = "111";
+                health = player.GetComponent<ProtagonistBehavior>().health - 5;
+                Debug.Log("Dialogue box health " + health);
             }
             if(names.Length >= 4) {
                 return;

@@ -14,7 +14,8 @@ public class ProtagonistBehavior : MonoBehaviour
     private string[] interactableItems = { "Nonpickable", "Board", "Pickable", "Door", "House", "Person" };
     private Rigidbody2D protagonist;
     public GameObject interactionWith = null;
-    private int health = 10;
+    public GameObject dialogs;
+    public int health = 10;
     private int speed = 10;
     private float logTimer = 0.0f;
     private float logTime = 0.1f;
@@ -50,6 +51,10 @@ public class ProtagonistBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(dialogs.GetComponent<DialogueBox>().health != health) {
+            health = dialogs.GetComponent<DialogueBox>().health;
+            Debug.Log("Protagist behaviour health " + health);
+        }
         Movement();
         LogUpdate();
         Menu();
