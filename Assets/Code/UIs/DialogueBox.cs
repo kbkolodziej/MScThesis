@@ -166,7 +166,7 @@ public class DialogueBox : MonoBehaviour
             if((interactWith.name == "Sprzedawca") && (names == "111" || names == "1111"))
             {
                 names = "111";
-                health = player.GetComponent<ProtagonistBehavior>().health - 5;
+                health = player.GetComponent<ProtagonistBehavior>().health - 4;
                 Debug.Log("Dialogue box health " + health);
             }
             if(names.Length >= 4) {

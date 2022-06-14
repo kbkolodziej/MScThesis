@@ -51,6 +51,7 @@ public class ProtagonistBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(health <= 0)
         if(dialogs.GetComponent<DialogueBox>().health != health) {
             health = dialogs.GetComponent<DialogueBox>().health;
             Debug.Log("Protagist behaviour health " + health);
@@ -304,6 +305,15 @@ public void LogUpdate()
 
     public void NonpickableInteraction(GameObject interactionWith)
     {
+        Debug.Log("Jestem w nonpickable!");
+        GameObject infoPanel = Inventory.instance.infoPanel;
+        if (!infoPanel.activeSelf)
+            infoPanel.SetActive(true);
+        infoPanel.GetComponent<InfoPanel>().infoLines = interactionWith.GetComponent<Nonpickable>().GetMyInfo();
+    }
+    public void EndInteraction()
+    {
+    //!!! TUTAJ PO PRZEGRANEJ ZMIENIĆ POWYŻSZĄ METODĘ NA WYSWIETLANIE JAK HEALTH <= 0 I PÓŹNIEJ WYJŚCIE Z GRY
         Debug.Log("Jestem w nonpickable!");
         GameObject infoPanel = Inventory.instance.infoPanel;
         if (!infoPanel.activeSelf)
