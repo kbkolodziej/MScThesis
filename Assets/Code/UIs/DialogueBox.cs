@@ -18,11 +18,13 @@ public class DialogueBox : MonoBehaviour
     public GameObject brat;
     private bool first;
     private bool brotherFound;
+    private bool sprzedawcaTalking;
     private Dictionary<string, List<int>> npcInteractions = new Dictionary<string, List<int>>();
     private string prevPerson = "";
     // Start is called before the first frame update
     void Start()
     {
+        sprzedawcaTalking = false;
         brotherFound = false;
         textComponent.text = string.Empty;
         // StartDialogue();
@@ -37,13 +39,18 @@ public class DialogueBox : MonoBehaviour
     void Update()
     {
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
-        if((interactWith.name == "Sprzedawca") && (brotherFound == true)){
+        if((interactWith != null)&&(interactWith.name == "Bonifacy")) {
+            brotherFound = true;
+            Debug.Log("bonifac");
+        }
+        if((interactWith != null)&&(interactWith.name == "Sprzedawca") && (brotherFound == true)){
+            Debug.Log("FOUND");
             string element = "findingBrother";
             ReadDialogue(element);
-            sprzedawca.SetActive(false);
+            sprzedawcaTalking = false;
             brat.SetActive(false);
         }
-        if (!npcInteractions.ContainsKey(interactWith.name)) {
+        if ((interactWith != null)&&(!npcInteractions.ContainsKey(interactWith.name))) {
             List<int> myList = new List<int>() {0};
             npcInteractions.Add(interactWith.name, myList);
         }
@@ -77,6 +84,7 @@ public class DialogueBox : MonoBehaviour
 
     void ReadDialogue(string name)
     {
+    if((interactWith!=null)&&(interactWith.name == "Sprzedawca")&&(sprzedawcaTalking==true)) return;
         first = true;
 //        continueButton.SetActive(true);
         dialogue = ReadingDialogues.ReadDialogue(name);
