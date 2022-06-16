@@ -51,7 +51,7 @@ public class ProtagonistBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(health <= 0)
+        //if(health <= 0)
         if(dialogs.GetComponent<DialogueBox>().health != health) {
             health = dialogs.GetComponent<DialogueBox>().health;
             Debug.Log("Protagist behaviour health " + health);

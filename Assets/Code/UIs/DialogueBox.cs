@@ -21,6 +21,7 @@ public class DialogueBox : MonoBehaviour
     private bool brotherFound;
     private Dictionary<string, List<int>> npcInteractions = new Dictionary<string, List<int>>();
     private string prevPerson = "";
+    private bool attacking = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +40,12 @@ public class DialogueBox : MonoBehaviour
     void Update()
     {
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
+        if ((interactWith != null)&&(!npcInteractions.ContainsKey(interactWith.name))) {
+            List<int> myList = new List<int>() {0};
+            npcInteractions.Add(interactWith.name, myList);
+        }
+        List<int> currentStats = npcInteractions[interactWith.name];
+        //if(currentStats[0] == -1) interactWith.SetActive(false);
         if((interactWith != null)&&(interactWith.name == "Bonifacy")) {
             brotherFound = true;
             Debug.Log("bonifac");
@@ -49,15 +56,11 @@ public class DialogueBox : MonoBehaviour
             ReadDialogue(element);
             brat.SetActive(false);
         }
-        if ((interactWith != null)&&(!npcInteractions.ContainsKey(interactWith.name))) {
-            List<int> myList = new List<int>() {0};
-            npcInteractions.Add(interactWith.name, myList);
-        }
         if (interactWith != null && interactWith.tag == "Person")
         {
             if(interactWith.name == "Casper") brotherFound = true;
             if(prevPerson != interactWith.name){
-                List<int> currentStats = npcInteractions[interactWith.name];
+                currentStats = npcInteractions[interactWith.name];
                 Debug.Log("Current stats" + currentStats.Count);
                 currentStats[0] = currentStats[0] + 1;
                 npcInteractions[interactWith.name] = currentStats;
@@ -155,27 +158,41 @@ public class DialogueBox : MonoBehaviour
 
     public void Answers(string name){
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
-        if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.Keypad1))){
-            if((interactWith.name != "Sprzedawca") && (interactWith.name != "Bonifacy")) return;
-            string names = null;
+        if((interactWith.name != "Sprzedawca") && (attacking == true)) {
+            Debug.Log("attack");
+            string nameCharacter = interactWith.name + "_attack";
             List<int> currentStats = npcInteractions[interactWith.name];
-            currentStats.Add(1);
-            for(int i = 0; i < currentStats.Count; i++){
-                names = names + currentStats[i].ToString();
-            }
-            if((interactWith.name == "Sprzedawca") && (names == "111" || names == "1111"))
-            {
-                names = "111";
-                health = player.GetComponent<ProtagonistBehavior>().health - 4;
-                Debug.Log("Dialogue box health " + health);
-            }
-            if(names.Length >= 4) {
-                return;
-            }
-            if((names.Length >= 3) && (interactWith.name == "Bonifacy")) return;
-            string nameCharacter = name + names;
+            currentStats[0] = -1;
+            string numbers = currentStats[currentStats.Count-1].ToString();
+            if(numbers == "1") Debug.Log("tesciek");
+
             npcInteractions[interactWith.name] = currentStats;
             ReadDialogue(nameCharacter);
+        }
+        if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.Keypad1))){
+            if((interactWith.name == "Sprzedawca") || (interactWith.name == "Bonifacy")) {
+                string names = null;
+                List<int> currentStats = npcInteractions[interactWith.name];
+                currentStats.Add(1);
+                for(int i = 0; i < currentStats.Count; i++){
+                    names = names + currentStats[i].ToString();
+                }
+                if((interactWith.name == "Sprzedawca") && (names == "111" || names == "1111"))
+                {
+                    names = "111";
+                    health = player.GetComponent<ProtagonistBehavior>().health - 4;
+                    Debug.Log("Dialogue box health " + health);
+                    attacking = true;
+
+                }
+                if(names.Length >= 4) {
+                    return;
+                }
+                if((names.Length >= 3) && (interactWith.name == "Bonifacy")) return;
+                string nameCharacter = name + names;
+                npcInteractions[interactWith.name] = currentStats;
+                ReadDialogue(nameCharacter);
+            }
         }
         if(Input.GetKeyDown(KeyCode.JoystickButton1) || (Input.GetKeyDown(KeyCode.Keypad2))){
             string names = null;
@@ -194,6 +211,7 @@ public class DialogueBox : MonoBehaviour
             Debug.Log("name" + name);
             Debug.Log("names" + names);
             ReadDialogue(nameCharacter);
+            if((interactWith.name == "Sprzedawca") && (names == "112")) attacking = true;
         }
         if(Input.GetKeyDown(KeyCode.JoystickButton0) || (Input.GetKeyDown(KeyCode.Keypad3))){
             string names = null;
