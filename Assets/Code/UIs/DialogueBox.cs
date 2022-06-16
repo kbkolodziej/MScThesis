@@ -19,12 +19,15 @@ public class DialogueBox : MonoBehaviour
     public GameObject brat;
     private bool first;
     private bool brotherFound;
+    public int killerCount;
     private Dictionary<string, List<int>> npcInteractions = new Dictionary<string, List<int>>();
     private string prevPerson = "";
     private bool attacking = false;
+    private bool sprzedawcaMet = false;
     // Start is called before the first frame update
     void Start()
     {
+        killerCount = 0;
         health = 10;
         brotherFound = false;
         textComponent.text = string.Empty;
@@ -154,6 +157,18 @@ public class DialogueBox : MonoBehaviour
 
     public void Answers(string name){
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
+        if((interactWith != null) && (interactWith.name == "Sprzedawca")) sprzedawcaMet = true;
+        if((killerCount >= 3)&&(interactWith != null)&&(interactWith.name == "Sprzedawca")) {
+            Debug.Log("TEST");
+            ReadDialogue("Sprzedawca_defeat");
+            if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.Keypad1))){
+                interactWith.SetActive(false);
+            }
+            return;
+        }
+        if(!sprzedawcaMet && (interactWith != null) && (interactWith.name == "Bonifacy")){
+            ReadDialogue("Bonifacy_attack");
+        }
         if((interactWith != null) && (interactWith.name != "Sprzedawca") && (attacking == true)) {
             string nameCharacter = interactWith.name + "_attack";
             List<int> currentStats = npcInteractions[interactWith.name];
@@ -166,9 +181,10 @@ public class DialogueBox : MonoBehaviour
             if(currentStats[0] == -1){
                 NextLine();
                 interactWith.SetActive(false);
+                killerCount += 1;
                 return;
             }
-            if((interactWith.name == "Sprzedawca") || (interactWith.name == "Bonifacy")) {
+            if((interactWith!= null) && ((interactWith.name == "Sprzedawca") || (interactWith.name == "Bonifacy"))) {
                 string names = null;
                 currentStats = npcInteractions[interactWith.name];
                 currentStats.Add(1);

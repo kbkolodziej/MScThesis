@@ -105,6 +105,7 @@
     <None Include="Assets\Dialogues\People\Sprzedawca123.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\Dialogues\People\Sprzedawca_defeat.txt" />
     <None Include="Assets\Dialogues\People\Albert.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\Dialogues\People\Sprzedawca111.txt" />
