@@ -7,12 +7,14 @@ public class Nonpickable : MonoBehaviour
     private string dialogue;
     private StringReader reader;
     private string[] information;
-    public bool treasure = false;
+    public bool treasure;
+    public bool studnia;
     // Start is called before the first frame update
     void Start()
     {
         GetInformationAboutMe();
         treasure = false;
+        studnia = false;
     }
 
     // Update is called once per frame
@@ -56,6 +58,10 @@ public class Nonpickable : MonoBehaviour
         if (name == "Treasure")
         {
             treasure = true;
+        }
+        if (name == "GlebokaStudnia")
+        {
+            studnia = true;
         }
         return information;
     }

@@ -80,8 +80,11 @@
     <Compile Include="Assets\Code\UIs\TextItem.cs" />
     <Compile Include="Assets\Code\Items\PlotItem.cs" />
     <Compile Include="Assets\Code\Items\Nonpickable.cs" />
-    <Compile Include="Assets\Code\UIs\DialogueBox.cs" />
     <Compile Include="Assets\cornersClicked.cs" />
+    <Compile Include="Assets\Code\UIs\DialogueBox.cs" />
+    <Compile Include="Assets\colliderLake.cs" />
+    <Compile Include="Assets\NewBehaviourScript.cs" />
+    <Compile Include="Assets\colliderGraveyard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

@@ -1,5 +1,5 @@
-j0 To nie jest najlepszy dzieñ na pogawêdki. OdejdŸ proszê.
-x0-1 Dobrze, nie przeszkadzam.
-x0-2 Pfft, mo¿na uprzejmiej.
-x0-3 ¯egnaj.
+j0 To nie jest najlepszy dzieÅ„ na pogawÄ™dki. OdejdÅº proszÄ™.
+x0-1 Dobrze, nie przeszkadzam. (O)
+x0-2 Pfft, moÅ¼na uprzejmiej. (X)
+x0-3 Å»egnaj. (â–¡)
 j1 Do zobaczenia!

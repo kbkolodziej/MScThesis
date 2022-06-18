@@ -184,7 +184,7 @@ public class DialogueBox : MonoBehaviour
         }
         Debug.Log("TEST0");
 
-        if((interactWith != null) && (Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.A)))){
+        if((interactWith != null) && (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))){
             Debug.Log("TEST");
             List<int> currentStats = npcInteractions[interactWith.name];
             if(currentStats[0] == -1){
@@ -220,7 +220,8 @@ public class DialogueBox : MonoBehaviour
                 ReadDialogue(nameCharacter);
             }
         }
-        if(Input.GetKeyDown(KeyCode.JoystickButton1) || (Input.GetKeyDown(KeyCode.B))){
+        if(interactWith != null && (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2))){
+
             if((interactWith.name == "Sprzedawca") || (interactWith.name == "Bonifacy")) {
                 string names = null;
                 List<int> currentStats = npcInteractions[interactWith.name];
@@ -242,7 +243,7 @@ public class DialogueBox : MonoBehaviour
                 }
             }
         }
-        if(Input.GetKeyDown(KeyCode.JoystickButton0) || (Input.GetKeyDown(KeyCode.C))){
+        if(interactWith != null && (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3))){
             if((interactWith.name == "Sprzedawca") || (interactWith.name == "Bonifacy")) {
                 string names = null;
                 List<int> currentStats = npcInteractions[interactWith.name];
