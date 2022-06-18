@@ -75,16 +75,16 @@
     <Compile Include="Assets\Code\MouseClickHandler.cs" />
     <Compile Include="Assets\Code\UIs\InfoPanel.cs" />
     <Compile Include="Assets\Code\Managers\ProtagonistBehavior.cs" />
+    <Compile Include="Assets\colliderGraveyard.cs" />
+    <Compile Include="Assets\colliderLake.cs" />
     <Compile Include="Assets\Code\UIs\TextHandler.cs" />
     <Compile Include="Assets\Code\Managers\InteractionMethods.cs" />
     <Compile Include="Assets\Code\UIs\TextItem.cs" />
     <Compile Include="Assets\Code\Items\PlotItem.cs" />
     <Compile Include="Assets\Code\Items\Nonpickable.cs" />
     <Compile Include="Assets\cornersClicked.cs" />
-    <Compile Include="Assets\Code\UIs\DialogueBox.cs" />
-    <Compile Include="Assets\colliderLake.cs" />
     <Compile Include="Assets\NewBehaviourScript.cs" />
-    <Compile Include="Assets\colliderGraveyard.cs" />
+    <Compile Include="Assets\Code\UIs\DialogueBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

@@ -22,6 +22,11 @@ public class ProtagonistBehavior : MonoBehaviour
     private bool Usher = false;
     private bool Sliwka = false;
     private bool Gruszka = false;
+    private bool Starting = false;
+    private bool Forest = false;
+    private bool Village = false;
+    private bool Construction = false;
+    public bool traveler = false;
     private FileStream oFileStream = null;
 
     private List<string> npcs = new List<string>();
@@ -60,6 +65,13 @@ public class ProtagonistBehavior : MonoBehaviour
          Usher = false;
          visitor = true;
         }
+        if(Starting && Forest && Construction && Village) {
+                 Starting = false;
+                 Forest = false;
+                 Construction = false;
+                 Village = false;
+                 traveler = true;
+                }
         //if(health <= 0)
         if(dialogs.GetComponent<DialogueBox>().health != health) {
             health = dialogs.GetComponent<DialogueBox>().health;
@@ -114,6 +126,10 @@ public class ProtagonistBehavior : MonoBehaviour
                 if(interactionWith.name == "HouseUsher") Usher = true;
                 if(interactionWith.name == "HouseSliwka") Sliwka = true;
                 if(interactionWith.name == "HouseGruszka") Gruszka = true;
+                if(interactionWith.name == "ForestBoard") Forest = true;
+                if(interactionWith.name == "ConstructionBoard") Construction = true;
+                if(interactionWith.name == "StartingBoard") Starting = true;
+                if(interactionWith.name == "VillageBoard") Village = true;
                 Debug.Log("house");
                     BoardInteraction(interactionWith);
                     break;
