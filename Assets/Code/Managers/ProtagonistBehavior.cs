@@ -19,6 +19,9 @@ public class ProtagonistBehavior : MonoBehaviour
     private int speed = 10;
     private float logTimer = 0.0f;
     private float logTime = 0.1f;
+    private bool Usher = false;
+    private bool Sliwka = false;
+    private bool Gruszka = false;
     private FileStream oFileStream = null;
 
     private List<string> npcs = new List<string>();
@@ -30,7 +33,7 @@ public class ProtagonistBehavior : MonoBehaviour
     private string currentWeapon;
     private List<string> items;
     private int openedChests;
-
+    public bool visitor = false;
     private int points = 0;
     private bool hasWeapon = false;
     private int killCount = 0;
@@ -51,6 +54,12 @@ public class ProtagonistBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Sliwka && Gruszka && Usher) {
+         Sliwka = false;
+         Gruszka = false;
+         Usher = false;
+         visitor = true;
+        }
         //if(health <= 0)
         if(dialogs.GetComponent<DialogueBox>().health != health) {
             health = dialogs.GetComponent<DialogueBox>().health;
@@ -102,6 +111,10 @@ public class ProtagonistBehavior : MonoBehaviour
                     PickableInteraction(interactionWith);
                     break;
                 case "Board":
+                if(interactionWith.name == "HouseUsher") Usher = true;
+                if(interactionWith.name == "HouseSliwka") Sliwka = true;
+                if(interactionWith.name == "HouseGruszka") Gruszka = true;
+                Debug.Log("house");
                     BoardInteraction(interactionWith);
                     break;
                 case "Nonpickable":
