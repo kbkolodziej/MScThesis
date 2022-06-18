@@ -23,7 +23,9 @@ public class DialogueBox : MonoBehaviour
     private Dictionary<string, List<int>> npcInteractions = new Dictionary<string, List<int>>();
     private string prevPerson = "";
     private bool attacking = false;
+    public GameObject treasure;
     private bool sprzedawcaMet = false;
+    public List<string> achievements = new List<string>();
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +43,9 @@ public class DialogueBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    if(Input.GetKeyDown(KeyCode.Alpha1)) Debug.Log("pressed 1");
+        if(!achievements.Contains("TreasureHunter") && treasure.GetComponent<Nonpickable>().treasure){
+            achievements.Add("TresureHunter");
+        }
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
         if ((interactWith != null)&&(!npcInteractions.ContainsKey(interactWith.name))) {
             List<int> myList = new List<int>() {0};
@@ -52,7 +56,8 @@ public class DialogueBox : MonoBehaviour
                 brotherFound = true;
             }
         }
-        if((interactWith != null)&&(interactWith.name == "Sprzedawca") && (brotherFound == true)){
+        if((interactWith != null)&&(interactWith.name == "Sprzedawca") && (brotherFound == true)&&(attacking != true)){
+            achievements.Add("Reuniting family");
             string element = "findingBrother";
             ReadDialogue(element);
             brat.SetActive(false);
@@ -157,13 +162,12 @@ public class DialogueBox : MonoBehaviour
     }
 
     public void Answers(string name){
-    Debug.Log("interact");
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
         if((interactWith != null) && (interactWith.name == "Sprzedawca")) sprzedawcaMet = true;
         if((killerCount >= 3)&&(interactWith != null)&&(interactWith.name == "Sprzedawca")) {
-            Debug.Log("TEST");
             ReadDialogue("Sprzedawca_defeat");
             if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.A))){
+                achievements.Add("Killer");
                 interactWith.SetActive(false);
             }
             return;
@@ -196,8 +200,12 @@ public class DialogueBox : MonoBehaviour
                 for(int i = 0; i < currentStats.Count; i++){
                     names = names + currentStats[i].ToString();
                 }
+                if((interactWith.name == "Sprzedawca") && (names == "121")){
+                    achievements.Add("Ready to Help");
+                }
                 if((interactWith.name == "Sprzedawca") && (names == "111" || names == "1111"))
                 {
+                    achievements.Add("Ready to Kill");
                     names = "111";
                     health = player.GetComponent<ProtagonistBehavior>().health - 4;
                     attacking = true;
@@ -228,7 +236,10 @@ public class DialogueBox : MonoBehaviour
                 string nameCharacter = name + names;
                 npcInteractions[interactWith.name] = currentStats;
                 ReadDialogue(nameCharacter);
-                if((interactWith.name == "Sprzedawca") && (names == "112")) attacking = true;
+                if((interactWith.name == "Sprzedawca") && (names == "112")) {
+                    achievements.Add("Ready to Kill");
+                    attacking = true;
+                }
             }
         }
         if(Input.GetKeyDown(KeyCode.JoystickButton0) || (Input.GetKeyDown(KeyCode.C))){
@@ -240,9 +251,12 @@ public class DialogueBox : MonoBehaviour
                 for(int i = 0; i < currentStats.Count; i++){
                     names = names + currentStats[i].ToString();
                 }
+                if((interactWith.name == "Sprzedawca") && (names == "121")){
+                    achievements.Add("Achiever");
+                }
                 if(names == "13") {
-                List<int> emptyList = new List<int>() {0};
-                npcInteractions[interactWith.name] = emptyList;
+                    List<int> emptyList = new List<int>() {0};
+                    npcInteractions[interactWith.name] = emptyList;
                 }
                 if((names.Length <= 2) || (names.Length >= 4)) return;
                 string nameCharacter = name + names;

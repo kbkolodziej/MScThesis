@@ -62,6 +62,7 @@
     <Compile Include="Assets\Code\Managers\CameraBehavior.cs" />
     <Compile Include="Assets\Code\Managers\InfoLoggerRocking.cs" />
     <Compile Include="Assets\Code\Items\InventorySlotController.cs" />
+    <Compile Include="Assets\ExitButton.cs" />
     <Compile Include="Assets\Code\Managers\AchievementManager.cs" />
     <Compile Include="Assets\Code\Managers\ProtagonistInfo.cs" />
     <Compile Include="Assets\Code\Items\Inventory.cs" />
@@ -80,7 +81,7 @@
     <Compile Include="Assets\Code\Items\PlotItem.cs" />
     <Compile Include="Assets\Code\Items\Nonpickable.cs" />
     <Compile Include="Assets\Code\UIs\DialogueBox.cs" />
-    <Compile Include="Assets\ExitButton.cs" />
+    <Compile Include="Assets\cornersClicked.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
@@ -117,6 +118,7 @@
     <None Include="Assets\Dialogues\People\Sambor_attack.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Dialogues\People\Alexander_attack.txt" />
+    <None Include="Assets\Dialogues\Nonpickables\Treasure.txt" />
     <None Include="Assets\Dialogues\People\Albert_attack.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\CollectedLogs.txt" />

@@ -1,4 +1,3 @@
-j0 To moja wina, to wszystko moja wina.
-x0-1 Co jest twoją winą?
-x0-2 W sumie to mnie to nie obchodzi.
+j0 Gdzieś w otchłani lasu kryje się skarb.
+x0-1 O jakim skarbie mówisz? Halo?
 j1 Bye
