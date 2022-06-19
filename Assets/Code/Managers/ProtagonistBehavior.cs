@@ -59,6 +59,7 @@ public class ProtagonistBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(health < 0) SceneManager.LoadScene("EndScreen");
         if(Sliwka && Gruszka && Usher) {
          Sliwka = false;
          Gruszka = false;
@@ -73,9 +74,12 @@ public class ProtagonistBehavior : MonoBehaviour
                  traveler = true;
                 }
         //if(health <= 0)
-        if(dialogs.GetComponent<DialogueBox>().health != health) {
+        if(dialogs.GetComponent<DialogueBox>().health < health) {
             health = dialogs.GetComponent<DialogueBox>().health;
-            Debug.Log("Protagist behaviour health " + health);
+        }
+        if (dialogs.GetComponent<DialogueBox>().exp > points)
+        {
+            points = dialogs.GetComponent<DialogueBox>().exp;
         }
         Movement();
         LogUpdate();
@@ -173,7 +177,6 @@ public class ProtagonistBehavior : MonoBehaviour
     public void Heal(int value)
     {
         health += value;
-        points += 10;
     }
 
     public void IncreasePoints(int value)

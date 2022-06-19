@@ -145,7 +145,10 @@ public class DialogueBox : MonoBehaviour
             yield return new WaitForSeconds(textSpeed); // change to wait for input
         }
     }
-
+    public void Heal(int value)
+    {
+        health += value;
+    }
     void NextLine()
     {
         if (index < lines.Length - 1)
@@ -166,7 +169,8 @@ public class DialogueBox : MonoBehaviour
         if((interactWith != null) && (interactWith.name == "Sprzedawca")) sprzedawcaMet = true;
         if((exp >= 3)&&(interactWith != null)&&(interactWith.name == "Sprzedawca")) {
             ReadDialogue("Sprzedawca_defeat");
-            if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.A))){
+            if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.Keypad1)) || Input.GetKeyDown(KeyCode.Alpha1)){
+                exp += 5;
                 achievements.Add("Killer");
                 interactWith.SetActive(false);
             }
@@ -184,7 +188,6 @@ public class DialogueBox : MonoBehaviour
         }
 
         if((interactWith != null) && (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))){
-            Debug.Log("TEST");
             List<int> currentStats = npcInteractions[interactWith.name];
             if(currentStats[0] == -1){
                 NextLine();
