@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class DialogueBox : MonoBehaviour
 {
     public int health;
@@ -18,6 +18,7 @@ public class DialogueBox : MonoBehaviour
     public GameObject sprzedawca;
     public GameObject brat;
     private bool first;
+    public int exp;
     private bool brotherFound;
     public int killerCount;
     private Dictionary<string, List<int>> npcInteractions = new Dictionary<string, List<int>>();
@@ -29,13 +30,12 @@ public class DialogueBox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        exp = 0;
         killerCount = 0;
         health = 10;
         brotherFound = false;
         textComponent.text = string.Empty;
-        // StartDialogue();
         gameObject.SetActive(false);
-//        continueButton.SetActive(false);
         List<int> myList = new List<int>() {0};
         npcInteractions.Add("Sprzedawca", myList);
     }
@@ -43,6 +43,7 @@ public class DialogueBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(health < 0) SceneManager.LoadScene("EndScreen");
         if(!achievements.Contains("TreasureHunter") && treasure.GetComponent<Nonpickable>().treasure){
             achievements.Add("TresureHunter");
         }
@@ -94,7 +95,6 @@ public class DialogueBox : MonoBehaviour
     {
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
         first = true;
-//        continueButton.SetActive(true);
         dialogue = ReadingDialogues.ReadDialogue(name);
         reader = new StringReader(dialogue);
         string line = "";
@@ -164,7 +164,7 @@ public class DialogueBox : MonoBehaviour
     public void Answers(string name){
         GameObject interactWith = player.GetComponent<ProtagonistBehavior>().interactionWith;
         if((interactWith != null) && (interactWith.name == "Sprzedawca")) sprzedawcaMet = true;
-        if((killerCount >= 3)&&(interactWith != null)&&(interactWith.name == "Sprzedawca")) {
+        if((exp >= 3)&&(interactWith != null)&&(interactWith.name == "Sprzedawca")) {
             ReadDialogue("Sprzedawca_defeat");
             if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.A))){
                 achievements.Add("Killer");
@@ -182,7 +182,6 @@ public class DialogueBox : MonoBehaviour
             npcInteractions[interactWith.name] = currentStats;
             ReadDialogue(nameCharacter);
         }
-        Debug.Log("TEST0");
 
         if((interactWith != null) && (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))){
             Debug.Log("TEST");
@@ -190,6 +189,8 @@ public class DialogueBox : MonoBehaviour
             if(currentStats[0] == -1){
                 NextLine();
                 interactWith.SetActive(false);
+                health -= 1;
+                exp += 1;
                 killerCount += 1;
                 return;
             }
