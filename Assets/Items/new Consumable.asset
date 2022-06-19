@@ -16,3 +16,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: ce48d227483a39f4eba7e6a253ebe27b, type: 3}
   itemInfo: Pyszne jedzonko
   heal: 0
+  exp: 1

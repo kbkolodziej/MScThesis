@@ -14,7 +14,7 @@ public class ProtagonistBehavior : MonoBehaviour
     private string[] interactableItems = { "Nonpickable", "Board", "Pickable", "Door", "House", "Person" };
     private Rigidbody2D protagonist;
     public GameObject interactionWith = null;
-    public GameObject dialogs;
+    public GameObject dialogs = null;
     public int health = 10;
     private int speed = 10;
     private float logTimer = 0.0f;
@@ -42,6 +42,9 @@ public class ProtagonistBehavior : MonoBehaviour
     private int points = 0;
     private bool hasWeapon = false;
     private int killCount = 0;
+    public GameObject visitorAchiev = null;
+    public GameObject boardsAchiev = null;
+    public GameObject badaczStudni = null;
     private List<string> achievements = new List<string>();
 
     private string equipped = "Bron zalozona i gotowa do uzycia!";
@@ -53,7 +56,14 @@ public class ProtagonistBehavior : MonoBehaviour
         Physics2D.gravity = Vector2.zero;
         protagonist = gameObject.GetComponent<Rigidbody2D>();
         string logPath = Application.dataPath;
-        oFileStream = new FileStream(logPath + "/CollectedLogs.txt", FileMode.Create);
+        if (!File.Exists(logPath + "/CollectedLogs.txt"))
+        {
+            oFileStream = new FileStream(logPath + "/CollectedLogs.txt", FileMode.Create);
+        }
+        else
+        {
+            oFileStream = new FileStream(logPath + "/CollectedLogs.txt", FileMode.Open);
+        }
     }
 
     // Update is called once per frame
@@ -65,14 +75,17 @@ public class ProtagonistBehavior : MonoBehaviour
          Gruszka = false;
          Usher = false;
          visitor = true;
+         visitorAchiev.SetActive(false);
         }
         if(Starting && Forest && Construction && Village) {
-                 Starting = false;
-                 Forest = false;
-                 Construction = false;
-                 Village = false;
-                 traveler = true;
-                }
+            Debug.Log("traveler");
+             Starting = false;
+             Forest = false;
+             Construction = false;
+             Village = false;
+             traveler = true;
+             boardsAchiev.SetActive(false);
+        }
         //if(health <= 0)
         if(dialogs.GetComponent<DialogueBox>().health < health) {
             health = dialogs.GetComponent<DialogueBox>().health;
@@ -134,7 +147,6 @@ public class ProtagonistBehavior : MonoBehaviour
                 if(interactionWith.name == "ConstructionBoard") Construction = true;
                 if(interactionWith.name == "StartingBoard") Starting = true;
                 if(interactionWith.name == "VillageBoard") Village = true;
-                Debug.Log("house");
                     BoardInteraction(interactionWith);
                     break;
                 case "Nonpickable":
@@ -146,8 +158,9 @@ public class ProtagonistBehavior : MonoBehaviour
                             dialoguePanel.SetActive(true);
                     break;
                 case "Door":
-                    string openTo = interactionWith.GetComponent<Door>().openTo;
-                    SceneManager.LoadScene(openTo);
+                    //oFileStream.Close();
+                    //string openTo = interactionWith.GetComponent<Door>().openTo;
+                    //SceneManager.LoadScene(openTo);
                     break;
                 case "House":
                     string getTo = interactionWith.GetComponent<House>().houseOf;
@@ -174,9 +187,10 @@ public class ProtagonistBehavior : MonoBehaviour
         }
     }
 
-    public void Heal(int value)
+    public void Heal(int hp, int exp)
     {
-        health += value;
+        health += hp;
+        points += exp;
     }
 
     public void IncreasePoints(int value)
@@ -208,7 +222,6 @@ public class ProtagonistBehavior : MonoBehaviour
                 interactionWith = null;
         }
     }
-
     private bool checkIfTalking()
     {
         GameObject panel = Inventory.instance.dialoguePanel;
@@ -337,6 +350,7 @@ public void LogUpdate()
 
     public void NonpickableInteraction(GameObject interactionWith)
     {
+        if (interactionWith.name == "GlebokaStudnia") badaczStudni.SetActive(false);
         Debug.Log("Jestem w nonpickable!");
         GameObject infoPanel = Inventory.instance.infoPanel;
         if (!infoPanel.activeSelf)

@@ -145,9 +145,10 @@ public class DialogueBox : MonoBehaviour
             yield return new WaitForSeconds(textSpeed); // change to wait for input
         }
     }
-    public void Heal(int value)
+    public void Heal(int hp, int exppoints)
     {
-        health += value;
+        health += hp;
+        exp += exppoints;
     }
     void NextLine()
     {
@@ -171,6 +172,7 @@ public class DialogueBox : MonoBehaviour
             ReadDialogue("Sprzedawca_defeat");
             if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.Keypad1)) || Input.GetKeyDown(KeyCode.Alpha1)){
                 exp += 5;
+                achievements.Add("Killer");
                 achievements.Add("Killer");
                 interactWith.SetActive(false);
             }
