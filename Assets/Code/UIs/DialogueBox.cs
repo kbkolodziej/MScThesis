@@ -173,7 +173,6 @@ public class DialogueBox : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.JoystickButton2) || (Input.GetKeyDown(KeyCode.Keypad1)) || Input.GetKeyDown(KeyCode.Alpha1)){
                 exp += 5;
                 achievements.Add("Killer");
-                achievements.Add("Killer");
                 interactWith.SetActive(false);
             }
             return;

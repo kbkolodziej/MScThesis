@@ -15,6 +15,7 @@ public class ProtagonistBehavior : MonoBehaviour
     private Rigidbody2D protagonist;
     public GameObject interactionWith = null;
     public GameObject dialogs = null;
+    public GameObject lake = null;
     public int health = 10;
     private int speed = 10;
     private float logTimer = 0.0f;
@@ -27,6 +28,7 @@ public class ProtagonistBehavior : MonoBehaviour
     private bool Village = false;
     private bool Construction = false;
     public bool traveler = false;
+    private bool studniaSprawdzona = false;
     private FileStream oFileStream = null;
 
     private List<string> npcs = new List<string>();
@@ -261,6 +263,7 @@ public void LogUpdate()
     {
         if (logTimer > logTime)
         {
+            achievementChecker();
             ProtagonistLogs protagonistInfo = new ProtagonistLogs();
             protagonistInfo.x = transform.position.x;
             protagonistInfo.y = transform.position.y;
@@ -350,7 +353,10 @@ public void LogUpdate()
 
     public void NonpickableInteraction(GameObject interactionWith)
     {
-        if (interactionWith.name == "GlebokaStudnia") badaczStudni.SetActive(false);
+        if (interactionWith.name == "GlebokaStudnia") {
+            studniaSprawdzona = true;
+            badaczStudni.SetActive(false);
+        }
         Debug.Log("Jestem w nonpickable!");
         GameObject infoPanel = Inventory.instance.infoPanel;
         if (!infoPanel.activeSelf)
@@ -359,11 +365,22 @@ public void LogUpdate()
     }
     public void EndInteraction()
     {
-    //!!! TUTAJ PO PRZEGRANEJ ZMIENIĆ POWYŻSZĄ METODĘ NA WYSWIETLANIE JAK HEALTH <= 0 I PÓŹNIEJ WYJŚCIE Z GRY
+
         Debug.Log("Jestem w nonpickable!");
         GameObject infoPanel = Inventory.instance.infoPanel;
         if (!infoPanel.activeSelf)
             infoPanel.SetActive(true);
         infoPanel.GetComponent<InfoPanel>().infoLines = interactionWith.GetComponent<Nonpickable>().GetMyInfo();
+    }
+    public void achievementChecker(){
+        string lakeVisited = lake.GetComponent<colliderLake>().visited;
+        if((lakeVisited.Length > 1) && (!achievements.Contains("Swimmer"))) achievements.Add("Swimmer");
+        List<string> dialogAchievs = dialogs.GetComponent<DialogueBox>().achievements;
+        if((traveler == true) && (!achievements.Contains("traveler"))) achievements.Add("traveler");
+        if((visitor == true) && (!achievements.Contains("visitor"))) achievements.Add("visitor");
+        if((studniaSprawdzona == true) && (!achievements.Contains("badacz studni"))) achievements.Add("badacz studni");
+        for(int i = 0; i < dialogAchievs.Count; i++){
+            if(!achievements.Contains(dialogAchievs[i])) achievements.Add(dialogAchievs[i]);
+        }
     }
 }
