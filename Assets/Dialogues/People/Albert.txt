@@ -1,5 +1,0 @@
-j0 To nie jest najlepszy dzień na pogawędki. Odejdź proszę.
-x0-1 Dobrze, nie przeszkadzam. (O)
-x0-2 Pfft, można uprzejmiej. (X)
-x0-3 Żegnaj. (□)
-j1 Do zobaczenia!
