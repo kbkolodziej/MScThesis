@@ -52,15 +52,20 @@ public class ProtagonistBehavior : MonoBehaviour
     private string equipped = "Bron zalozona i gotowa do uzycia!";
     private string unequipped = "Bron sciagnieta.";
 
+    public static String GetTimestamp(DateTime value)
+    {
+        return value.ToString("yyyyMMddHHmmssffff");
+    }
     // Start is called before the first frame update
     void Start()
     {
+        String timeStamp = GetTimestamp(new DateTime());
         Physics2D.gravity = Vector2.zero;
         protagonist = gameObject.GetComponent<Rigidbody2D>();
         string logPath = Application.dataPath;
         if (!File.Exists(logPath + "/CollectedLogs.txt"))
         {
-            oFileStream = new FileStream(logPath + "/CollectedLogs.txt", FileMode.Create);
+            oFileStream = new FileStream(logPath + timeStamp + "/CollectedLogs.txt", FileMode.Create);
         }
         else
         {
@@ -71,28 +76,25 @@ public class ProtagonistBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (health < 0) SceneManager.LoadScene("EndScreen");
-        if (Sliwka && Gruszka && Usher)
-        {
-            Sliwka = false;
-            Gruszka = false;
-            Usher = false;
-            visitor = true;
-            visitorAchiev.SetActive(false);
+        if(health < 0) SceneManager.LoadScene("EndScreen");
+        if(Sliwka && Gruszka && Usher) {
+         Sliwka = false;
+         Gruszka = false;
+         Usher = false;
+         visitor = true;
+         visitorAchiev.SetActive(false);
         }
-        if (Starting && Forest && Construction && Village)
-        {
+        if(Starting && Forest && Construction && Village) {
             Debug.Log("traveler");
-            Starting = false;
-            Forest = false;
-            Construction = false;
-            Village = false;
-            traveler = true;
-            boardsAchiev.SetActive(false);
+             Starting = false;
+             Forest = false;
+             Construction = false;
+             Village = false;
+             traveler = true;
+             boardsAchiev.SetActive(false);
         }
         //if(health <= 0)
-        if (dialogs.GetComponent<DialogueBox>().health < health)
-        {
+        if(dialogs.GetComponent<DialogueBox>().health < health) {
             health = dialogs.GetComponent<DialogueBox>().health;
         }
         if (dialogs.GetComponent<DialogueBox>().exp > points)
@@ -120,7 +122,7 @@ public class ProtagonistBehavior : MonoBehaviour
 
     void Menu()
     {
-        if ((Input.GetKeyDown(KeyCode.Tab)) || (Input.GetKeyDown(KeyCode.JoystickButton1) && interactionWith))
+        if((Input.GetKeyDown(KeyCode.Tab))|| (Input.GetKeyDown(KeyCode.JoystickButton1) && interactionWith))
         {
 
             GameObject panel = Inventory.instance.inventoryPanel;
@@ -145,22 +147,22 @@ public class ProtagonistBehavior : MonoBehaviour
                     PickableInteraction(interactionWith);
                     break;
                 case "Board":
-                    if (interactionWith.name == "HouseUsher") Usher = true;
-                    if (interactionWith.name == "HouseSliwka") Sliwka = true;
-                    if (interactionWith.name == "HouseGruszka") Gruszka = true;
-                    if (interactionWith.name == "ForestBoard") Forest = true;
-                    if (interactionWith.name == "ConstructionBoard") Construction = true;
-                    if (interactionWith.name == "StartingBoard") Starting = true;
-                    if (interactionWith.name == "VillageBoard") Village = true;
+                if(interactionWith.name == "HouseUsher") Usher = true;
+                if(interactionWith.name == "HouseSliwka") Sliwka = true;
+                if(interactionWith.name == "HouseGruszka") Gruszka = true;
+                if(interactionWith.name == "ForestBoard") Forest = true;
+                if(interactionWith.name == "ConstructionBoard") Construction = true;
+                if(interactionWith.name == "StartingBoard") Starting = true;
+                if(interactionWith.name == "VillageBoard") Village = true;
                     BoardInteraction(interactionWith);
                     break;
                 case "Nonpickable":
                     NonpickableInteraction(interactionWith);
                     break;
                 case "Person":
-                    GameObject dialoguePanel = Inventory.instance.dialoguePanel;
-                    if (!dialoguePanel.activeSelf)
-                        dialoguePanel.SetActive(true);
+                        GameObject dialoguePanel = Inventory.instance.dialoguePanel;
+                        if (!dialoguePanel.activeSelf)
+                            dialoguePanel.SetActive(true);
                     break;
                 case "Door":
                     //oFileStream.Close();
@@ -182,7 +184,7 @@ public class ProtagonistBehavior : MonoBehaviour
         // not so peaceful
         else if ((Input.GetKeyDown(KeyCode.Q) && interactionWith && hasWeapon) || (Input.GetKeyDown(KeyCode.JoystickButton1) && interactionWith && hasWeapon))
         {
-            if (interactionWith.tag == "Person")
+            if(interactionWith.tag == "Person")
             {
                 IncreasePoints(interactionWith.GetComponent<NPCBehavior>().GetPointsValue());
                 killCount += 1;
@@ -262,7 +264,7 @@ public class ProtagonistBehavior : MonoBehaviour
         }
 
     }
-    public void LogUpdate()
+public void LogUpdate()
     {
         if (logTimer > logTime)
         {
@@ -274,8 +276,7 @@ public class ProtagonistBehavior : MonoBehaviour
             protagonistInfo.interactionClicks = interactionClicks;
             protagonistInfo.uniqueInteractions = uniqueInteractions;
             protagonistInfo.npcStoriesStatus = npcStoriesStatus;
-            if (((interactionWith != null) && (interactionWith.tag == "Person")) && (prevNPC != interactionWith.name))
-            {
+            if (((interactionWith != null) && (interactionWith.tag == "Person")) && (prevNPC != interactionWith.name)) {
                 npcs.Add(interactionWith.name);
                 prevNPC = interactionWith.name;
             }
@@ -288,12 +289,12 @@ public class ProtagonistBehavior : MonoBehaviour
             protagonistInfo.openedChests = openedChests;
             protagonistInfo.npcs = npcs;
 
-            // General info
-            protagonistInfo.timestamp = new System.DateTimeOffset(System.DateTime.Now).ToUnixTimeMilliseconds();
-            //            protagonistInfo.xMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - Mathf.Abs(new Vector3(GetComponent<Camera>().transform.position.x, 0, 0).x));
-            //            protagonistInfo.yMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - Mathf.Abs(new Vector3(0, GetComponent<Camera>().transform.position.y, 0).y));
-            //            protagonistInfo.xMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
-            //            protagonistInfo.yMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y;
+    // General info
+              protagonistInfo.timestamp = new System.DateTimeOffset(System.DateTime.Now).ToUnixTimeMilliseconds();
+//            protagonistInfo.xMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x - Mathf.Abs(new Vector3(GetComponent<Camera>().transform.position.x, 0, 0).x));
+//            protagonistInfo.yMin = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - 2 * (GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y - Mathf.Abs(new Vector3(0, GetComponent<Camera>().transform.position.y, 0).y));
+//            protagonistInfo.xMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
+//            protagonistInfo.yMax = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).y;
 
             string json = JsonUtility.ToJson(protagonistInfo);
             byte[] bytes = Encoding.ASCII.GetBytes(json);
@@ -357,8 +358,7 @@ public class ProtagonistBehavior : MonoBehaviour
 
     public void NonpickableInteraction(GameObject interactionWith)
     {
-        if (interactionWith.name == "GlebokaStudnia")
-        {
+        if (interactionWith.name == "GlebokaStudnia") {
             studniaSprawdzona = true;
             badaczStudni.SetActive(false);
         }
@@ -377,17 +377,15 @@ public class ProtagonistBehavior : MonoBehaviour
             infoPanel.SetActive(true);
         infoPanel.GetComponent<InfoPanel>().infoLines = interactionWith.GetComponent<Nonpickable>().GetMyInfo();
     }
-    public void achievementChecker()
-    {
+    public void achievementChecker(){
         string lakeVisited = lake.GetComponent<colliderLake>().visited;
-        if ((lakeVisited.Length > 1) && (!achievements.Contains("Swimmer"))) achievements.Add("Swimmer");
+        if((lakeVisited.Length > 1) && (!achievements.Contains("Swimmer"))) achievements.Add("Swimmer");
         List<string> dialogAchievs = dialogs.GetComponent<DialogueBox>().achievements;
-        if ((traveler == true) && (!achievements.Contains("traveler"))) achievements.Add("traveler");
-        if ((visitor == true) && (!achievements.Contains("visitor"))) achievements.Add("visitor");
-        if ((studniaSprawdzona == true) && (!achievements.Contains("badacz studni"))) achievements.Add("badacz studni");
-        for (int i = 0; i < dialogAchievs.Count; i++)
-        {
-            if (!achievements.Contains(dialogAchievs[i])) achievements.Add(dialogAchievs[i]);
+        if((traveler == true) && (!achievements.Contains("traveler"))) achievements.Add("traveler");
+        if((visitor == true) && (!achievements.Contains("visitor"))) achievements.Add("visitor");
+        if((studniaSprawdzona == true) && (!achievements.Contains("badacz studni"))) achievements.Add("badacz studni");
+        for(int i = 0; i < dialogAchievs.Count; i++){
+            if(!achievements.Contains(dialogAchievs[i])) achievements.Add(dialogAchievs[i]);
         }
     }
 }
